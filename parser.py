@@ -58,4 +58,3 @@ for i in range(0, len(tokens)):
             index[loc] = index[loc].append(i+1)
 for i in range(0, len(index)):
     print(index[i])
-
