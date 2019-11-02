@@ -213,7 +213,8 @@ def parse_documents(list_of_document_names):
 indexer = word_indexer();
 
 # reads the documents and builds our document objects
-parsed_documents = parse_documents(['./example_docs/doc1.txt','./example_docs/doc2.txt','./example_docs/doc3.txt'])
+# parsed_documents = parse_documents(['./example_docs/doc1.txt','./example_docs/doc2.txt','./example_docs/doc3.txt'])
+parsed_documents = parse_documents(['./example_docs/example1.txt','./example_docs/example2.txt'])
 
 # prints the full word index that we have made
 print(indexer)
@@ -222,7 +223,7 @@ print(indexer)
 for doc in parsed_documents:
     print(doc)
 
-# printed idf for words that are in 1, 2, and 3 of the documents respectively
-print( "idf for the word Somebody: " + str( get_idf(parsed_documents,"Somebody") ) )
-print( "idf for the word spaghetti: " + str( get_idf(parsed_documents,"spaghetti") ) )
-print( "idf for the word house: " + str( get_idf(parsed_documents,"house") ) )
+# printed idf for words that are in 3, 2, and 1 of the documents respectively
+# print( "idf for the word Somebody: " + str( get_idf(parsed_documents,"Somebody") ) )
+# print( "idf for the word spaghetti: " + str( get_idf(parsed_documents,"spaghetti") ) )
+# print( "idf for the word house: " + str( get_idf(parsed_documents,"house") ) )
