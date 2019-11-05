@@ -1,5 +1,7 @@
 
-import math, string
+import math
+import string
+
 
 class word_indexer():
     # constructor
