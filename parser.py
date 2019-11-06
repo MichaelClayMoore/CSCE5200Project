@@ -31,7 +31,7 @@ def parse(text):
     return tokens
 
 
-addr = ["./doc1.txt", "./doc2.txt"]
+addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt"]
 docs = []
 tokens = []
 for a in addr:
