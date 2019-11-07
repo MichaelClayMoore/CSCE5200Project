@@ -47,19 +47,26 @@ def docfrequency(count,N):
             if count[x][y] != 0:
                 df += 1
         idf.append(round(math.log((N/df), 10),3))
-    print(idf)
     return idf
+
+def tf_idf(tf, idf):
+    tfidf=tf
+    for x in range(0,len(tf)):
+        for y in range(0,len(tf[0])):
+
+                tfidf[x][y] = round((tf[x][y] * idf[y]),3)
+    print(tfidf)
+
 
 def parse(text):
     tokens = text.split()
     for t in range(0, len(tokens)):
         tokens[t] = sanitize(tokens[t].lower())
     tokens = list(dict.fromkeys(tokens))
-    print(tokens)
     return tokens
 
 
-addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt","./example_docs/doc3.txt"]
+addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt","./example_docs/doc3.txt","./example_docs/doc4.txt"]
 docs = []
 tokens = []
 counts = []
@@ -71,13 +78,14 @@ for a in addr:
 for d in range(0, len(docs)):
     tokens.append(parse(docs[d]))
 
-print(tokens)
 index = []
 for i in range(0, len(tokens)):
     for j in range(0, len(tokens[i])):
         if tokens[i][j] not in index:
             index.append(tokens[i][j])
 
+print(index)
 tf = termfrequency(index, docs)
-print(tf)
+
 idf = docfrequency(tf,len(docs))
+tf_idf(tf,idf)
