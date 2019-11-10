@@ -21,18 +21,36 @@ def sanitize(word):
 def normalize(tfidf):
     Ntfidf = tfidf
     for x in range(0,len(tfidf)):
-        print(tfidf[x])
+        #print(tfidf[x])
         square = []
         for i in range(0,len(tfidf[0])):
             square.append(math.pow(tfidf[x][i],2))
         total = math.sqrt(sum(square))
-        print(total)
+        #print(total)
         for y in range(0,len(tfidf[0])):
-            Ntfidf[x][y] = round(tfidf[x][y] / total,3)
+            if total > 0:
+               Ntfidf[x][y] = round(tfidf[x][y] / total,3)
+            else:
+                Ntfidf[x][y] = 0
 
     return Ntfidf
 
+def Qnormalize(Qtfidf):
+    QNtfidf = [None] * len(Qtfidf)
+    total = 0
+    for x in range(0,len(Qtfidf)):
+        total += math.pow(Qtfidf[x][0],2)
+    for x in range(0,len(Qtfidf)):
+        QNtfidf[x]= Qtfidf[x][0]/math.sqrt(total)
+    return QNtfidf
 
+
+def Qtermfrequency(index, query):
+    tf = [None] * len(index)
+    for i in range(0,len(tf)):
+        tf[i]=[]
+        tf[i].append(query.count(index[i]))
+    return tf
 
 def termfrequency(index, docs):
     tf = [None] * len(docs)
@@ -85,10 +103,11 @@ def parse(text):
 #addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt","./example_docs/doc3.txt","./example_docs/doc4.txt"]
 docs = []
 tokens = []
+Qtokens=[]
 counts = []
 tf = []
 addr = glob.glob("./docs/*.txt")
-print(addr)
+query = "reaction parameters"
 for a in addr:
     file =open(a, "r")
     docs.append(file.read())
@@ -104,9 +123,12 @@ for i in range(0, len(tokens)):
 
 print(index)
 tf = termfrequency(index, docs)
-
+Qtf = Qtermfrequency(index, query)
+print(Qtf)
 idf = docfrequency(tf,len(docs))
 tfidf = tf_idf(tf,idf)
-print(tfidf)
+Qtfidf = tf_idf(Qtf,idf)
+print(Qtfidf)
 Ntfidf=normalize(tfidf)
-print(Ntfidf)
+QNtfidf = Qnormalize(Qtfidf)
+print(QNtfidf)
