@@ -6,6 +6,7 @@ import numpy as np
 import math
 import glob
 
+
 def sanitize(word):
     #forbidden = ["a","an","as","but","or","and","for","is","was","be","the","so","at"]
     if word.endswith("\'s"):
@@ -17,6 +18,7 @@ def sanitize(word):
     #if word in forbidden :
      #   return -1
     return word
+
 
 def normalize(tfidf):
     Ntfidf = tfidf
@@ -49,7 +51,7 @@ def Qtermfrequency(index, query):
     tf = [None] * len(index)
     for i in range(0,len(tf)):
         tf[i]=[]
-        tf[i].append(query.count(index[i]))
+        tf[i].append(round(query.count(index[i]),3))
     return tf
 
 def termfrequency(index, docs):
@@ -100,6 +102,15 @@ def parse(text):
     return tokens
 
 
+def cosine(norm, Qnorm):
+    sim = []
+    for x in range(0,len(norm)):
+        total = 0
+        for y in range(0,len(norm[0])):
+            total += norm[x][y] * Qnorm[y]
+        sim.append(round(total,3))
+    return sim
+
 #addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt","./example_docs/doc3.txt","./example_docs/doc4.txt"]
 docs = []
 tokens = []
@@ -132,3 +143,5 @@ print(Qtfidf)
 Ntfidf=normalize(tfidf)
 QNtfidf = Qnormalize(Qtfidf)
 print(QNtfidf)
+sim = cosine(Ntfidf,QNtfidf)
+print(sim)
