@@ -19,17 +19,14 @@
                   <br/>
                   following formats:
                   <br/>
-                  .txt, .pdf, .docx
+                  .txt
                 </p>
               </v-layout>
             </v-card-text>
             <v-card-actions>
-              <v-layout row justify-space-around :style="{'margin-left':'30%','margin-right':'30%'}">
-                <v-file-input flat hide-details rounded dense color="" background-color="#41A5D7" :style="{'width':'40%','cursor':'pointer'}"
-                label="Upload"
-                >
-
-                </v-file-input>
+              <v-layout row justify-space-around>
+                <v-btn rounded class="btn" :style="{'color':'#ffffff', 'background-color':'#5997AE', 'width':'40%'}" @click="$refs.inputUpload.click()">upload a file</v-btn>
+                <input v-show="false" ref="inputUpload" type="file" @change="handleFiles" >
               </v-layout>
             </v-card-actions>
           </v-layout>
@@ -47,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
   name: 'upload',
@@ -73,10 +71,36 @@ export default {
       this.$router.push('/')
       // this.showing = !this.showing
     },
-    handleFiles(){
+    handleFiles(e){
       console.log("handling!")
-      console.log(files)
-    }
+      const files = e.target.files;
+
+      if(files[0] != undefined){
+        console.log(files[0])
+        const reader = new FileReader()
+        let context = this
+        reader.onload = function(event) {
+            var contents = event.target.result;
+            console.log("File contents: " + contents);
+
+            let fileObject = {
+              "name":files[0].name,
+              "text":contents
+            }
+
+            context.$store.dispatch('add_document',fileObject)
+
+        };
+
+        reader.onerror = function(event) {
+            console.error("File could not be read! Code " + event.target.error.code);
+        };
+
+        reader.readAsText(files[0])
+      }
+
+    },
+
   }
 }
 </script>

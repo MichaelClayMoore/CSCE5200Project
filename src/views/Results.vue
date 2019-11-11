@@ -12,16 +12,24 @@
               </v-card-title>
             </v-layout>
         </v-card-title>
-          <v-card-text style="overflow-y: scroll; height: 65%">
-          <v-layout column align-content-center justify-space-around>
+          <div style="overflow-y:hidden; overflow-x:hidden;height: 75%; width: 100%">
+          <v-card-text style="height: 50vh; overflow-y:scroll">
+          <v-layout column align-content-center justify-space-around style="overflow-y:hidden;">
             <v-divider/>
             <div v-for="item in results">
-              <p>{{item.title}}</p>
-              <p>{{item.text}}</p>
+              <span>
+                <v-layout row style="margin-left:2px; margin-right:5px">
+                <p style="display:inline;"> {{item.document.name}} </p>
+                <v-spacer/>
+                <p style="display:inline;"> score: {{item.score.toFixed(3)}}</p>
+                </v-layout>
+              </span>
+              <p :class="item.document.name"></p>
               <v-divider/>
             </div>
           </v-layout>
           </v-card-text>
+          </div>
         </v-layout>
       </v-card>
 
@@ -38,41 +46,35 @@
 
 <script>
 
+import { mapState } from 'vuex'
+
 export default {
   name: 'results',
+  computed : { ...mapState( ['results'] ) },
   data () {
     return {
         query: "",
-        results: [
-          {
-            title:"doc1",
-            text:"lorem lipsm"
-          },
-          {
-            title:"doc2",
-            text:"lorem lipsm also"
-          },
-          {
-            title:"doc3",
-            text:"lorem lipsm also"
-          },
-          {
-            title:"doc4",
-            text:"lorem lipsm also"
-          },
-          {
-            title:"doc5",
-            text:"lorem lipsm also"
-          },
-          {
-            title:"doc6",
-            text:"lorem lipsm also"
-          },
-          {
-            title:"doc2",
-            text:"lorem lipsm also"
-          },
-        ]
+        results_for_page: this.results
+    }
+  },
+  mounted(){
+    console.log(this.results)
+
+    for( let index in this.results){
+      let item = this.results[index]
+      let className = item.document.name
+
+      item.document.text = item.document.text.replace('\n','<br/>')
+
+      console.log(className)
+      let containers = document.getElementsByClassName(className)
+      console.log(containers)
+      console.log(containers.length)
+      console.log(containers[0])
+      for(let index = 0; index < containers.length; index++){
+        console.log("index: ", index)
+        containers[index].innerHTML = item.document.text
+      }
     }
   },
   methods: {

@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
   name: 'home',
@@ -45,6 +46,10 @@ export default {
     return {
         query: "",
     }
+  },
+  mounted () {
+    console.log("mounted");
+    this.$store.dispatch('getTest');
   },
   methods: {
     submit_query(){
@@ -58,6 +63,9 @@ export default {
 
       let context = this
       console.log("the query is: " + this.query)
+
+      this.$store.dispatch('query_documents', this.query)
+
       setTimeout(function(){
         context.$router.push('/results')
       }, 5000)
