@@ -106,11 +106,6 @@ def parse(text):
     return tokens
 
 
-# <<<<<<< HEAD
-
-# addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt","./example_docs/doc3.txt"]
-
-# =======
 def cosine(norm, Qnorm):
     sim = []
     for x in range(0, len(norm)):
@@ -120,8 +115,6 @@ def cosine(norm, Qnorm):
         sim.append(round(total, 3))
     return sim
 
-# addr = ["./example_docs/doc1.txt", "./example_docs/doc2.txt","./example_docs/doc3.txt","./example_docs/doc4.txt"]
-# >>>>>>> 90e6dc59687137bf7d1d3d71f34258aa6d774029
 
 docs = []
 tokens = []
